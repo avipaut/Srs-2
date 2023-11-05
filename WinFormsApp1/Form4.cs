@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
@@ -20,12 +21,177 @@ namespace WinFormsApp1
 
         private void Form4_Load(object sender, EventArgs e)
         {
-            label1.MaximumSize = new Size(700, 0);
 
-            label1.Text = "Shell Sort:\r\n\r\nПреимущества:\r\nShell Sort обеспечивает устойчивость относительно входных данных, и его производительность на практике весьма неплоха.\r\nЭффективен для средних и больших массивов данных, особенно когда размер массива значительно превышает количество элементов.\r\nНедостатки:\r\nНе так эффективен для маленьких массивов или уже отсортированных данных.\r\nПараметры (шаги) сортировки могут сильно влиять на производительность, и нахождение оптимальных параметров может быть нетривиальной задачей.\r\nPriority Queue Sort (Heap Sort):\r\n\r\nПреимущества:\r\nHeap Sort гарантирует, что он будет выполнять сортировку в наихудшем случае за O(n log n) времени, что делает его стабильным алгоритмом для сортировки больших объемов данных.\r\nОн не требует дополнительной памяти для сортировки (in-place сортировка).\r\nНедостатки:\r\nНе так быстр в средних и лучших случаях, как некоторые другие алгоритмы, такие как Quick Sort.\r\nМожет потребовать больше времени и сравнений для сортировки, чем некоторые адаптивные алгоритмы, такие как Merge Sort.\r\nQuick Sort:\r\n\r\nПреимущества:\r\nQuick Sort - это один из самых быстрых алгоритмов сортировки в среднем и лучшем случае. Он обычно превосходит другие алгоритмы, такие как Bubble Sort и Insertion Sort.\r\nВ отличие от Shell Sort, Quick Sort хорошо работает как с небольшими, так и с большими массивами данных.\r\nНедостатки:\r\nВ наихудшем случае (когда выбирается плохой опорный элемент), Quick Sort может работать очень медленно и даже вызвать переполнение стека (если не используется итеративная версия).\r\nQuick Sort не гарантирует стабильности порядка элементов.\r\nСравнение:\r\n\r\nЕсли важна производительность и вам необходимо сортировать большие объемы данных, Heap Sort может быть предпочтительным выбором, особенно если дополнительная память ограничена.\r\nЕсли вам нужен хороший компромисс между производительностью и устойчивостью к различным типам входных данных, Shell Sort может быть подходящим выбором.\r\nЕсли важна производительность в среднем и лучшем случае, и вам необходим алгоритм, который хорошо справляется с массивами любого размера, Quick Sort может быть наилучшим выбором.\r\nВыбор алгоритма сортировки зависит от ваших конкретных требований и особенностей данных, с которыми вы работаете.";
-            UpdateLabelWidth();
         }
-        private void Form5_SizeChanged(object sender, EventArgs e)
+        private void CompareAlgorithmsButton_Click(object sender, EventArgs e)
+        {
+        }
+
+        private int[] GenerateRandomArray(int size)
+        {
+            int[] randomArray = new int[size];
+            Random random = new Random();
+            for (int i = 0; i < size; i++)
+            {
+                randomArray[i] = random.Next(1, 1000);
+            }
+            return randomArray;
+        }
+
+        private void ShellSort(int[] arr)
+        {
+            int n = arr.Length;
+
+            for (int gap = n / 2; gap > 0; gap /= 2)
+            {
+                for (int i = gap; i < n; i++)
+                {
+                    int temp = arr[i];
+                    int j;
+
+                    for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)
+                    {
+                        arr[j] = arr[j - gap];
+                    }
+
+                    arr[j] = temp;
+                }
+            }
+        }
+
+        private void HeapSort(int[] arr)
+        {
+            int n = arr.Length;
+
+            for (int i = n / 2 - 1; i >= 0; i--)
+            {
+                Heapify(arr, n, i);
+            }
+
+            for (int i = n - 1; i > 0; i--)
+            {
+                int temp = arr[0];
+                arr[0] = arr[i];
+                arr[i] = temp;
+
+                Heapify(arr, i, 0);
+            }
+        }
+
+        private void Heapify(int[] arr, int n, int i)
+        {
+            int largest = i;
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+
+            if (left < n && arr[left] > arr[largest])
+            {
+                largest = left;
+            }
+
+            if (right < n && arr[right] > arr[largest])
+            {
+                largest = right;
+            }
+
+            if (largest != i)
+            {
+                int swap = arr[i];
+                arr[i] = arr[largest];
+                arr[largest] = swap;
+
+                Heapify(arr, n, largest);
+            }
+        }
+
+        private void QuickSort(int[] arr, int low, int high)
+        {
+            if (low < high)
+            {
+                int pivot = Partition(arr, low, high);
+
+                QuickSort(arr, low, pivot - 1);
+                QuickSort(arr, pivot + 1, high);
+            }
+        }
+
+        private int Partition(int[] arr, int low, int high)
+        {
+            int pivot = arr[high];
+            int i = low - 1;
+
+            for (int j = low; j < high; j++)
+            {
+                if (arr[j] < pivot)
+                {
+                    i++;
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+
+            int swapTemp = arr[i + 1];
+            arr[i + 1] = arr[high];
+            arr[high] = swapTemp;
+
+            return i + 1;
+        }
+
+        private void CompareAlgorithmsButton_Click_1(object sender, EventArgs e)
+        {
+
+            int arraySize = int.Parse(ArraySizeTextBox.Text);
+
+
+            int[] randomArray = GenerateRandomArray(arraySize);
+
+
+            Stopwatch shellSortStopwatch = new Stopwatch();
+            shellSortStopwatch.Start();
+            ShellSort(randomArray);
+            shellSortStopwatch.Stop();
+
+
+            int[] heapSortArray = (int[])randomArray.Clone();
+            Stopwatch heapSortStopwatch = new Stopwatch();
+            heapSortStopwatch.Start();
+            HeapSort(heapSortArray);
+            heapSortStopwatch.Stop();
+
+
+            int[] quickSortArray = (int[])randomArray.Clone();
+            Stopwatch quickSortStopwatch = new Stopwatch();
+            quickSortStopwatch.Start();
+            QuickSort(quickSortArray, 0, quickSortArray.Length - 1);
+            quickSortStopwatch.Stop();
+
+
+            DataGridViewRow row1 = new DataGridViewRow();
+            row1.CreateCells(ResultsDataGridView);
+            row1.SetValues("Shell Sort", shellSortStopwatch.ElapsedMilliseconds + " ms");
+            ResultsDataGridView.Rows.Add(row1);
+
+            DataGridViewRow row2 = new DataGridViewRow();
+            row2.CreateCells(ResultsDataGridView);
+            row2.SetValues("Heap Sort", heapSortStopwatch.ElapsedMilliseconds + " ms");
+            ResultsDataGridView.Rows.Add(row2);
+
+            DataGridViewRow row3 = new DataGridViewRow();
+            row3.CreateCells(ResultsDataGridView);
+            row3.SetValues("Quick Sort", quickSortStopwatch.ElapsedMilliseconds + " ms");
+            ResultsDataGridView.Rows.Add(row3);
+
+            // Выводим анализ
+            string analysis = "Сравнительный анализ:\n";
+            analysis += "Shell Sort:\r\n\r\nПреимущества: Shell Sort сочетает преимущества сортировки вставками (эффективен на почти упорядоченных данных) и быстродействие алгоритма с уменьшающимся шагом.\r\nНедостатки: Хотя Shell Sort лучше сортирует массивы, чем сортировка вставками, он не столь быстр, как некоторые другие алгоритмы, такие как Quick Sort или Сортировка кучей.\r\nСложность: Сложность Shell Sort в среднем составляет O(n log^2 n), но может варьироваться в зависимости от выбора интервалов.\r\n\r\n";
+            analysis += "Сортировка кучей (Heap Sort):\r\n\r\nПреимущества: Сортировка кучей имеет постоянное использование дополнительной памяти, хорошо подходит для сортировки больших массивов и стабильна по времени выполнения.\r\nНедостатки: Операции построения кучи могут потребовать дополнительного времени и памяти.\r\nСложность: Сортировка кучей имеет сложность O(n log n) в худшем и среднем случаях.\r\n\r\n";
+            analysis += "Quick Sort:\r\n\r\nПреимущества: Quick Sort - один из самых быстрых алгоритмов сортировки, если опорные элементы хорошо выбраны. Он не требует дополнительной памяти для сортировки и часто быстрее сортировки слиянием на практике.\r\nНедостатки: Quick Sort не стабилен, и в некоторых случаях (например, отсортированный массив) его производительность может снижаться.\r\nСложность: Средняя сложность Quick Sort составляет O(n log n), но в худшем случае (плохой выбор опорных элементов) может достигать O(n^2).\r\n\r\n";
+            AnalysisLabel.Text = analysis;
+            UpdateLabelWidth();
+
+        }
+        private void Form3_SizeChanged(object sender, EventArgs e)
         {
             UpdateLabelWidth();
         }
@@ -33,8 +199,13 @@ namespace WinFormsApp1
         private void UpdateLabelWidth()
         {
             int maxWidth = this.ClientSize.Width - 20; // Учтем небольшой зазор от края окна
-            label1.MaximumSize = new Size(maxWidth, 0);
-            label1.AutoSize = true;
+            AnalysisLabel.MaximumSize = new Size(maxWidth, 0);
+            AnalysisLabel.AutoSize = true;
+        }
+
+        private void ResultsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

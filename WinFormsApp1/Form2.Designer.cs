@@ -32,6 +32,7 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
+            menuStrip1 = new MenuStrip();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -71,6 +72,16 @@
             label3.TabIndex = 3;
             label3.Text = "label3";
             // 
+            // menuStrip1
+            // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(840, 24);
+            menuStrip1.TabIndex = 4;
+            menuStrip1.Text = "menuStrip1";
+            menuStrip1.ItemClicked += menuStrip1_ItemClicked;
+            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -81,6 +92,8 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(pictureBox1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "Form2";
             Text = "Form2";
             Load += Form2_Load;
@@ -95,5 +108,6 @@
         private Label label1;
         private Label label2;
         private Label label3;
+        private MenuStrip menuStrip1;
     }
 }

@@ -27,11 +27,16 @@ namespace WinFormsApp1
             label1.Text = "Описание Алгоритма ShellSort";
             label1.Font = new Font("Arial", 30, FontStyle.Regular);
             label2.Font = new Font("Arial", 15, FontStyle.Regular);
-            pictureBox1.Image = new Bitmap("C:\\Users\\Admin\\Downloads\\igrbaajcuoxuj4q-l-38x0qsoq4.gif");
+            pictureBox1.Image = new Bitmap("C:\\Users\\Admin\\source\\repos\\WinFormsApp1\\WinFormsApp1\\Images\\igrbaajcuoxuj4q-l-38x0qsoq4.gif");
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
         }

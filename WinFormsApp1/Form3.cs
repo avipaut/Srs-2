@@ -13,10 +13,13 @@ namespace WinFormsApp1
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            label2.Text = "Алгоритм";
+            label1.Font = new Font("Arial", 30, FontStyle.Regular);
+            label2.Font = new Font("Arial", 15, FontStyle.Regular);
+            label1.Text = "Алгоритм";
+            label2.Text = "Heapify";
             label3.Text = "Двоичная куча представляет собой полное бинарное дерево, для которого выполняется основное свойство кучи: приоритет каждой вершины больше приоритетов её потомков. В простейшем случае приоритет каждой вершины можно считать равным её значению. В таком случае структура называется max-heap, поскольку корень поддерева является максимумом из значений элементов поддерева. В этой статье для простоты используется именно такое представление. Напомню также, что дерево называется полным бинарным, если у каждой вершины есть не более двух потомков, а заполнение уровней вершин идет сверху вниз (в пределах одного уровня – слева направо).";
             UpdateLabelWidth();
-            pictureBox1.Image = new Bitmap("C:\\Users\\Admin\\Downloads\\1_t5B9NRgJKTxgZYsLhwU8Zg.gif");
+            pictureBox1.Image = new Bitmap("C:\\Users\\Admin\\source\\repos\\WinFormsApp1\\WinFormsApp1\\Images\\1_t5B9NRgJKTxgZYsLhwU8Zg.gif");
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         }
 

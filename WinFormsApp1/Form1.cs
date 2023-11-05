@@ -58,7 +58,7 @@ namespace WinFormsApp1
             if (PriorityQueueSortRadioButton.Checked)
             {
                 stopwatch.Start();
-                ShellSort(intArray);
+                PriorityQueueSort(intArray);
                 stopwatch.Stop();
             }
             if (QuickSortRadioButton.Checked)
